@@ -1,4 +1,4 @@
-# \# Automated Backup System
+# Automated Backup System
 
 # How to run (Dec 2025)
 
