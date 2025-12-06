@@ -1,0 +1,25 @@
+# Docker / MinIO junk
+backup/
+source/
+.docker/
+.minio.sys/
+buckets/
+.metadata/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# IDE / OS garbage
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs if someone adds them later
+*.log

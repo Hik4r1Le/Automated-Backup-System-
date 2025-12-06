@@ -1,0 +1,58 @@
+services:
+  storage:
+    image: minio/minio:latest
+    container_name: ceph-storage
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: DEMOACCESSKEY12345
+      MINIO_ROOT_PASSWORD: DEMOSECRETKEY1234567890ABCDEF
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ../backup:/data
+    networks:
+      - project-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s   # <-- this was missing
+
+  createbucket:
+    image: minio/mc:latest
+    depends_on:
+      storage:
+        condition: service_healthy
+    networks:
+      - project-net
+    entrypoint: >
+      sh -c "
+      sleep 5 &&
+      mc alias set myminio http://ceph-storage:9000 DEMOACCESSKEY12345 DEMOSECRETKEY1234567890ABCDEF &&
+      mc mb myminio/default-bucket --ignore-existing
+      "
+
+  watcher:
+    build:
+      context: ../watcher-service
+      dockerfile: Dockerfile
+    container_name: watcher-service
+    depends_on:
+      createbucket:
+        condition: service_completed_successfully
+    volumes:
+      - ../source:/app/source
+    environment:
+      - STORAGE_ENDPOINT=http://ceph-storage:9000
+      - S3_ACCESS_KEY=DEMOACCESSKEY12345
+      - S3_SECRET_KEY=DEMOSECRETKEY1234567890ABCDEF
+      - S3_BUCKET=default-bucket
+      - WATCH_DIR=/app/source
+    networks:
+      - project-net
+
+networks:
+  project-net:
+    external: true

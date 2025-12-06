@@ -1,0 +1,5 @@
+FROM python:3.12-slim
+WORKDIR /app
+COPY . .
+RUN pip install watchdog boto3
+CMD ["python", "watcher.py"]  # Replace with your script name
