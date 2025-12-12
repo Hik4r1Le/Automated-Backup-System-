@@ -1,0 +1,63 @@
+[
+  {
+    "timestamp": "2025-12-12T01:40:11.998245",
+    "status": "SUCCESS",
+    "source": "/source/test_document.pdf",
+    "destination": "/backup/test_document.pdf",
+    "size_bytes": 1048576,
+    "size_formatted": "1.00 MB",
+    "duration_seconds": 0.5
+  },
+  {
+    "timestamp": "2025-12-12T01:40:12.000529",
+    "status": "SUCCESS",
+    "source": "/source/large_file.zip",
+    "destination": "/backup/large_file.zip",
+    "size_bytes": 52428800,
+    "size_formatted": "50.00 MB",
+    "duration_seconds": 2.3
+  },
+  {
+    "timestamp": "2025-12-12T01:40:12.002853",
+    "status": "FAILED",
+    "source": "/source/corrupted.txt",
+    "size_bytes": 2048,
+    "size_formatted": "2.00 KB",
+    "error": "Connection timeout"
+  },
+  {
+    "timestamp": "2025-12-12T01:40:12.004564",
+    "status": "FAILED",
+    "source": "/source/locked.docx",
+    "size_bytes": null,
+    "size_formatted": null,
+    "error": "Permission denied: File is locked by another process"
+  },
+  {
+    "timestamp": "2025-12-12T01:40:12.008958",
+    "status": "SUCCESS",
+    "source": "/source/batch_file_0.txt",
+    "destination": "/backup/batch_file_0.txt",
+    "size_bytes": 512,
+    "size_formatted": "512.00 B",
+    "duration_seconds": 0.1
+  },
+  {
+    "timestamp": "2025-12-12T01:40:12.011094",
+    "status": "SUCCESS",
+    "source": "/source/batch_file_1.txt",
+    "destination": "/backup/batch_file_1.txt",
+    "size_bytes": 1024,
+    "size_formatted": "1.00 KB",
+    "duration_seconds": 0.2
+  },
+  {
+    "timestamp": "2025-12-12T01:40:12.012632",
+    "status": "SUCCESS",
+    "source": "/source/batch_file_2.txt",
+    "destination": "/backup/batch_file_2.txt",
+    "size_bytes": 1536,
+    "size_formatted": "1.50 KB",
+    "duration_seconds": 0.3
+  }
+]
