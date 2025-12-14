@@ -250,7 +250,7 @@ sudo hostnamectl set-hostname k3s-worker-1
 sudo hostnamectl set-hostname k3s-worker-2
 ```
 
-**Quan trong: reboote lại toàn bộ cả 3 Node**
+**Quan trọng: reboot lại toàn bộ cả 3 Node**
 ```shell
 sudo reboot
 ```
