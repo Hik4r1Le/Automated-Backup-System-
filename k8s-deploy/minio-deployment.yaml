@@ -1,0 +1,59 @@
+# minio-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio-server
+  labels:
+    app: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      # BƯỚC QUAN TRỌNG: Buộc Pod chạy trên Node Worker 2
+      nodeSelector:
+        storage-role: target 
+      containers:
+      - name: minio
+        image: minio/minio:latest
+        args:
+          # Khởi động MinIO server và chỉ định /data là thư mục lưu trữ
+          - server
+          - /data
+          - --console-address
+          - ":9001" # Cổng giao diện Web UI
+        
+        # Biến môi trường cho tài khoản Root (sử dụng cho đồ án/lab)
+        env:
+        - name: MINIO_ROOT_USER
+          value: "minioadmin"
+        - name: MINIO_ROOT_PASSWORD
+          value: "minioadmin"
+        
+        ports:
+        - containerPort: 9000 # Cổng S3 API (Watcher dùng)
+        - containerPort: 9001 # Cổng Console UI
+        
+        # Gắn PVC vào thư mục /data bên trong container
+        volumeMounts:
+        - name: storage-volume
+          mountPath: /data
+
+      # Định nghĩa Volume sử dụng PVC
+#      volumes:
+#      - name: storage-volume
+#        persistentVolumeClaim:
+#          claimName: minio-data-pvc # Tên PVC đã định nghĩa ở trên
+      volumes:
+      - name: storage-volume
+        hostPath:
+          # Thư mục vật lý trên Node Worker 2 mà chúng ta đã tạo ở Bước 2
+          path: /mnt/minio-storage-data 
+          # Đảm bảo thư mục được tạo nếu nó chưa tồn tại
+          type: DirectoryOrCreate 
+

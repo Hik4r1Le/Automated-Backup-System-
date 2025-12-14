@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ceph Backup Admin Console</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>📄 Automation Backup System Console</h1>
+        <button id="create-new-btn">➕ Add new file</button>
+    </header>
+
+    <main class="container">
+        <aside class="file-list-pane">
+            <h2>My Repo</h2>
+            <ul id="file-list">
+                <li class="empty-message">No files found</li>
+            </ul>
+        </aside>
+
+        <section class="editor-pane">
+            <div id="editor-header">
+                <span id="current-filename">Choose or add new file</span>
+                <div class="actions">
+                    <button id="save-btn" disabled>💾 Save</button>
+                    <button id="delete-btn" disabled class="delete-btn">🗑️ Delete</button>
+                </div>
+            </div>
+            
+            <textarea id="file-content-editor" placeholder="File contents will be displayed here..." disabled></textarea>
+            
+            <div id="status-message" class="hidden"></div>
+        </section>
+
+        <aside class="restore-pane">
+            <h2>☁️ Backup History</h2>
+            <div id="backup-list-container">
+                <div class="loading-message">Loading history...</div>
+                </div>
+            <div id="backup-status-message" class="hidden"></div>
+        </aside>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

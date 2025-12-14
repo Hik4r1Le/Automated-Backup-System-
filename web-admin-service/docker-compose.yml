@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web-admin-ui:
+    # Tự động build image từ Dockerfile trong thư mục hiện tại
+    build: . 
+    container_name: web-admin-test
+    
+    # Ánh xạ cổng 8080 của container ra cổng 8080 của máy host
+    ports:
+      - "8080:8080"
+    
+    # MÔ PHỎNG HOSTPATH VOLUME:
+    # Gắn thư mục ~/ceph-project/source-data trên Host vào thư mục /mnt/source-files trong container
+    # Đảm bảo đường dẫn này khớp với biến SOURCE_DIR trong app.py
+    volumes:
+      - ./source-data:/mnt/source-files

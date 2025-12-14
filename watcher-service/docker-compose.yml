@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------
+  # 2. Watcher Service (Mô phỏng Worker 1)
+  # ----------------------------------------------------
+  watcher:
+    # Tự động build Watcher Image từ Dockerfile
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: watcher-service-test
+    
+    volumes:
+      # Gắn thư mục source-data (Host) vào thư mục giám sát (Container)
+      - ../web-admin-service/source-data:/mnt/source
+      # Gắn thư mục logs (Host) vào thư mục log (Container) để xem output
+      - ./logs:/app/logs
+
+    environment:
+      # Cấu hình Watcher và MinIO
+      WATCH_DIR: /mnt/source         # Thư mục Watchdog giám sát
+      LOG_DIR: /app/logs             # Thư mục Logger ghi log
+      LOG_LEVEL: INFO               # Ghi log chi tiết để kiểm thử
+      
+      # Cấu hình S3 Client (trỏ đến MinIO Service trong Docker network)
+      MINIO_ENDPOINT: http://10.0.3.10:9000 # Tên service 'minio' trong network Docker
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET: ceph-backup-bucket # Tên bucket sẽ được Watcher tạo

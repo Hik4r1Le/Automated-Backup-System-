@@ -1,0 +1,19 @@
+# web-admin-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-admin-nodeport
+  labels:
+    app: web-admin
+spec:
+  selector:
+    app: web-admin
+    
+  type: NodePort
+  
+  ports:
+    - name: http-access
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      # nodePort: 30080 # Tùy chọn, bạn có thể chỉ định cổng nếu muốn

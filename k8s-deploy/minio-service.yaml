@@ -1,0 +1,45 @@
+# minio-service.yaml
+# ----------------------------------------------------
+# 1. Service CLUSTERIP (Dành cho giao tiếp nội bộ Watcher)
+# ----------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  # Tên Service mà Watcher Service sử dụng (http://storage-service:9000)
+  name: storage-service 
+  labels:
+    app: minio
+spec:
+  selector:
+    app: minio # Trỏ đến các Pod MinIO
+  ports:
+    # Cổng API S3 (Watcher dùng để upload)
+    - name: api
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+  type: ClusterIP
+
+---
+
+# ----------------------------------------------------
+# 2. Service NODEPORT (Dành cho truy cập Web Console bên ngoài)
+# ----------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  # Tên Service riêng biệt cho việc truy cập Console
+  name: minio-console-nodeport
+  labels:
+    app: minio-admin
+spec:
+  selector:
+    app: minio # Vẫn trỏ đến các Pod MinIO
+  type: NodePort
+  ports:
+    # Cổng Console Web UI
+    - name: console-access
+      protocol: TCP
+      port: 9001
+      targetPort: 9001
+      # nodePort: (Kubernetes sẽ tự chọn nếu bạn không chỉ định)

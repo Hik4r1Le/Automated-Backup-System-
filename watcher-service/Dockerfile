@@ -1,6 +1,19 @@
-FROM python:3.11-slim
+# Dockerfile
+FROM python:3.10-slim
+
 WORKDIR /app
-COPY requirements.txt .
+
+# Sao chép các thư mục module cần thiết
+COPY ./requirements.txt .
+COPY ./storage_client.py .
+COPY ./watcher_service.py .
+COPY ./backup_logger.py .
+
+# Cài đặt dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-COPY watcher.py .
-CMD ["python", "watcher.py"]
+
+# Thiết lập biến môi trường để Watcher Service biết nơi Log Module được đặt
+ENV PYTHONPATH=/app
+
+# Lệnh chạy Watcher
+CMD ["python3", "watcher_service.py"]

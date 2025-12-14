@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2025-12-13T17:50:54.235113",
+    "status": "SUCCESS",
+    "source": "/mnt/source/ssh.txt",
+    "destination": "s3://ceph-backup-bucket/ssh.txt",
+    "size_bytes": 0,
+    "size_formatted": "0.00 B",
+    "duration_seconds": 0.01
+  },
+  {
+    "timestamp": "2025-12-13T17:51:29.726329",
+    "status": "SUCCESS",
+    "source": "/mnt/source/ssh.txt",
+    "destination": "s3://ceph-backup-bucket/ssh.txt",
+    "size_bytes": 8,
+    "size_formatted": "8.00 B",
+    "duration_seconds": 30.26
+  }
+]

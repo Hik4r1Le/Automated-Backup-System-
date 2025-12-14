@@ -1,0 +1,57 @@
+# watcher-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: watcher-service
+  labels:
+    app: watcher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: watcher
+  template:
+    metadata:
+      labels:
+        app: watcher
+    spec:
+      # BƯỚC QUAN TRỌNG 1: Buộc Pod chạy trên Node Worker 1 (Source Node)
+      nodeSelector:
+        storage-role: source
+        
+      containers:
+      - name: watcher
+        image: nqvuong23/watcher-service:v3.0 # Thay bằng Image bạn vừa push
+        imagePullPolicy: Always
+        
+        # Biến môi trường
+        envFrom:
+        - configMapRef:
+            name: watcher-config
+        - secretRef:
+            name: minio-secret # Sử dụng Secret đã tạo trước đó cho MinIO Keys (Nếu chưa có, cần tạo)
+
+        # Định nghĩa các cổng nếu cần (chủ yếu là để xem log)
+        # ports:
+        # - containerPort: 8080 # Nếu sau này có API healthcheck
+
+        volumeMounts:
+        # Gắn thư mục NGUỒN vào Host (Source Node)
+        - name: source-volume
+          mountPath: /mnt/source 
+        # Gắn thư mục LOG vào Host (để truy cập log file trực tiếp trên Host nếu cần)
+        - name: log-volume
+          mountPath: /app/logs
+          
+      # Định nghĩa HostPath Volumes
+      volumes:
+      - name: source-volume
+        hostPath:
+          # Đường dẫn vật lý trên Node Worker 1
+          path: /mnt/source 
+          type: DirectoryOrCreate
+      - name: log-volume
+        hostPath:
+          # Đường dẫn vật lý trên Node Worker 1 để lưu log file
+          path: /mnt/logs/watcher
+          type: DirectoryOrCreate

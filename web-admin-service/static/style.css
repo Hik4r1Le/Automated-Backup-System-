@@ -1,0 +1,311 @@
+/* style.css */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #f8f9fa;
+    --border-color: #dee2e6;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --delete-color: #dc3545;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9ecef;
+    color: #343a40;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+#create-new-btn {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+#create-new-btn:hover {
+    background-color: #e2e6ea;
+}
+
+/* Cấu trúc chính */
+.container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Cột danh sách file */
+.file-list-pane {
+    width: 300px; /* Cố định 300px */
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    background-color: var(--secondary-color);
+}
+
+.file-list-pane h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    font-size: 1.2em;
+}
+
+#file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#file-list li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    border-left: 3px solid transparent;
+}
+
+#file-list li:hover {
+    background-color: #e9ecef;
+}
+
+#file-list li.active {
+    background-color: #cfe2ff;
+    border-left-color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Cột soạn thảo */
+.editor-pane {
+    flex-grow: 1; /* Chiếm phần còn lại */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 15px;
+}
+
+#current-filename {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+#file-content-editor {
+    flex-grow: 1;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    resize: none;
+    font-family: Consolas, monospace;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#file-content-editor:focus {
+    border-color: var(--primary-color);
+}
+
+/* Buttons trong Editor */
+#save-btn {
+    background-color: var(--primary-color);
+    color: white;
+    margin-right: 10px;
+}
+
+#save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.delete-btn {
+    background-color: var(--delete-color);
+    color: white;
+}
+
+/* Thông báo trạng thái */
+#status-message {
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.success {
+    background-color: #d4edda;
+    color: var(--success-color);
+}
+
+.error {
+    background-color: #f8d7da;
+    color: var(--error-color);
+}
+
+.hidden {
+    display: none;
+}
+
+/* ... (Phần CSS cũ giữ nguyên) ... */
+
+/* Cấu trúc chính */
+.container {
+    display: flex;
+    max-width: 1400px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Điều chỉnh độ rộng 3 cột */
+.file-list-pane {
+    width: 250px; /* Nhỏ hơn một chút */
+    /* ... (CSS cũ) ... */
+}
+
+.editor-pane {
+    flex-grow: 1; /* Chiếm phần lớn nhất */
+    /* ... (CSS cũ) ... */
+    border-right: 1px solid var(--border-color); /* Thêm đường viền */
+}
+
+/* Cột Restore Mới */
+.restore-pane {
+    width: 350px; /* Cố định 350px */
+    padding: 20px;
+    background-color: #f0f8ff; /* Màu nền nhẹ nhàng cho khu vực backup */
+}
+
+.restore-pane h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #5aa5e2;
+    font-size: 1.2em;
+    color: #0056b3;
+}
+
+#backup-list-container {
+    max-height: 70vh; /* Giới hạn chiều cao cho scroll */
+    overflow-y: auto;
+}
+
+/* Style cho các mục trong danh sách Backup */
+.backup-group {
+    border: 1px solid #cce5ff;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.backup-file-header {
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.backup-file-header span {
+    font-weight: normal;
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+/* Style cho Dropdown Versions */
+.version-list {
+    list-style: none;
+    padding: 0 10px;
+    margin: 0;
+    max-height: 0; /* Ẩn ban đầu */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    background-color: var(--secondary-color);
+}
+
+.version-list.expanded {
+    max-height: 500px; /* Mở rộng khi active */
+    padding: 10px;
+}
+
+.version-list li {
+    padding: 8px 0;
+    border-bottom: 1px dotted #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.version-list li:last-child {
+    border-bottom: none;
+}
+
+.version-list .version-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.version-list .version-time {
+    color: #6c757d;
+    font-size: 0.8em;
+}
+
+.restore-action-btn {
+    background-color: var(--success-color);
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.restore-action-btn:hover {
+    background-color: #1e7e34;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}

@@ -1,0 +1,49 @@
+# web-admin-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-admin-ui
+  labels:
+    app: web-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-admin
+  template:
+    metadata:
+      labels:
+        app: web-admin
+    spec:
+      # BƯỚC QUAN TRỌNG: Buộc Pod chạy trên Node Worker 1 (Source Node)
+      nodeSelector:
+        storage-role: source
+        
+      containers:
+      - name: web-admin
+        image: nqvuong23/web-admin-ui:v1.0 # Thay bằng Image bạn vừa push
+        imagePullPolicy: Always
+        
+        # Web Admin chạy trên cổng 8080 (theo app.py)
+        ports:
+        - containerPort: 8080 
+        
+        # Biến môi trường
+        envFrom:
+        - configMapRef:
+            name: watcher-config
+        - secretRef:
+            name: minio-secret # Sử dụng Secret MinIO đã tạo
+
+        volumeMounts:
+        # Gắn thư mục NGUỒN vào Host (Phải khớp với Watcher và HostPath)
+        - name: source-volume
+          mountPath: /mnt/source 
+          
+      # Định nghĩa HostPath Volume (Chia sẻ với Watcher)
+      volumes:
+      - name: source-volume
+        hostPath:
+          # Đường dẫn vật lý trên Node Worker 1
+          path: /mnt/source 
+          type: DirectoryOrCreate

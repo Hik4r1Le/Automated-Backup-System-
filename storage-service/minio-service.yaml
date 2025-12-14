@@ -1,0 +1,21 @@
+# minio-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-service # Tên Service (Watcher sẽ gọi đến tên này)
+spec:
+  selector:
+    app: minio # Trỏ Service đến các Pod có label app: minio
+  ports:
+    # Cổng API S3 (Watcher dùng để upload)
+    - name: api
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+    # Cổng Console Web UI (Nếu bạn muốn truy cập nội bộ trong cluster)
+    - name: console
+      protocol: TCP
+      port: 9001
+      targetPort: 9001
+      
+  type: ClusterIP # Chỉ truy cập nội bộ trong cluster

@@ -1,0 +1,22 @@
+# watcher-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: watcher-config
+  labels:
+    app: watcher
+data:
+  # Địa chỉ của MinIO Service (storage-service)
+  MINIO_ENDPOINT: "http://storage-service:9000"
+  
+  # Bucket Watcher sẽ upload vào
+  MINIO_BUCKET: "ceph-backup-bucket"
+  
+  # Thư mục Watchdog giám sát (Phải khớp với HostPath mountPath)
+  WATCH_DIR: "/mnt/source"
+  
+  # Thư mục lưu log (Phải khớp với HostPath mountPath)
+  LOG_DIR: "/app/logs"
+  
+  # Cấp độ log
+  LOG_LEVEL: "INFO"
